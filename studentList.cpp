@@ -12,6 +12,7 @@ NO GLOBAL VARIABLES THIS TIME
 #include <string.h>
 #include <vector>
 #include <iterator>
+#include <iomanip>
 
 using namespace std;
 
@@ -26,8 +27,8 @@ bool translateMove(char* input, vector<STUDENT*>* v);
 //int studentNum = 0;
 
 int main(){
-        system("clear");
-	vector <STUDENT*>* v = new vector<STUDENT*>;
+  system("clear");//initially clears command line 
+  vector <STUDENT*>* v = new vector<STUDENT*>;//pointer of pointers
 	char input[30];
 	for(int x = 0; x < 30; x++){
 		input[x]= '\0';
@@ -44,16 +45,16 @@ int main(){
 	
 }
 
-bool translateMove(char* input, vector<STUDENT*>* v){
+bool translateMove(char* input, vector<STUDENT*>* v){//converts input into a command that does stuff
 	char in[100];
-	if(strcasecmp(input, "ADD") == 0){
-	  system("clear");
+	if(strcasecmp(input, "ADD") == 0){//ignores capital letters
+	  system("clear");//clears if statements to make it easy to delete after printing
 	  STUDENT *s = new STUDENT();
-		char tmp [100];
+	  char tmp [100];//work around for cin>> mixing with cin.getline segementation faults
 		
 		cout << "Input first name: ";
 		cin.getline(in, 100);
-		strcpy(s->fName, in);
+		strcpy(s->fName, in);//uses arrow because it is a STUDENT pointer
 		
 		cout << "Input last name: ";
 		cin.getline(in, 100);
@@ -62,44 +63,46 @@ bool translateMove(char* input, vector<STUDENT*>* v){
 		int id= 0;
 		cout << "Input ID num: ";
 		cin.getline(tmp, 100);
-		istringstream buffer(tmp);
+		istringstream buffer(tmp);//gets num as int first then converts it into an int
 		buffer >> id;
 		s->id = id;
 		
 		float grade = 0;
 		cout << "Input GPA: ";
 		cin.getline(tmp, 100);
-		istringstream buffer2(tmp);
+		istringstream buffer2(tmp);//same here
 		buffer2 >> grade;
 		s->gpa = grade;
 		
-		(*v).push_back(s);
+		(*v).push_back(s);//pushes it to end of vector
 		return true;
 	}else if(strcasecmp(input, "PRINT") == 0){
-	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){
+	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){//iterates through the vector
 	    system("clear");
+	    cout << fixed << showpoint;
+	    cout << setprecision(2);//sets deicmal to be 5.00 even if just 5
 	    cout << "\nName: " << (*(*it)).lName << ", " << (*it)->fName;
 	    cout << "\nID: " << (*it)->id;
-	    cout << "\nGPA: " << (*it)->gpa << "\n\n";
+	    cout << "\nGPA: " << (*it)->gpa << "\n\n";//serparates the peopel
 	  }
 	    
 	}else if(strcasecmp(input, "DELETE") == 0){
 	  cout << "Please input the ID of the student you wish to delete: ";
 	  cin.getline(in,100);
-	  stringstream ss(in);
+	  stringstream ss(in);//converts input to an int, to avoid that error
 	  int delID = 0;
 	  ss >> delID;
 	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){
 	    if(delID ==(*it)->id){
 	      cout << "test" << endl;
 	      (*v).erase(it);
-	      break;
+	      break;//breaks to avoid iterating to an erased student
 	    }
 	  }
-	  system("clear");
+	  system("clear");//clears after so you can print, then delete the student you want to kill
 	  return true;
 	}else if(strcasecmp(input, "EXIT") == 0){
-		exit(0);
+	  exit(0);//ends program
 	}else{
 	  return false;
 	}
