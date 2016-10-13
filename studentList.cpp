@@ -22,11 +22,12 @@ struct STUDENT{
 	int id;
 	float gpa;
 };
-STUDENT translateMove(char* input, vector<STUDENT>* v);
+bool translateMove(char* input, vector<STUDENT*>* v);
 //int studentNum = 0;
 
 int main(){
-	vector <STUDENT>* v;
+        system("clear");
+	vector <STUDENT*>* v = new vector<STUDENT*>;
 	char input[30];
 	for(int x = 0; x < 30; x++){
 		input[x]= '\0';
@@ -36,59 +37,56 @@ int main(){
 		cin.clear();
 		cin.sync();//cleans cin
 		cin.getline(input, 30);
-		STUDENT structLoc = translateMove(input, v);
+		translateMove(input, v);
 		
 	}
 	
 	
 }
 
-STUDENT translateMove(char* input, vector<STUDENT>* v){
+bool translateMove(char* input, vector<STUDENT*>* v){
 	char in[100];
 	system("clear");
 	if(strcasecmp(input, "ADD") == 0){
-		STUDENT s;
+	  STUDENT *s = new STUDENT();
 		char tmp [100];
 		
 		cout << "Input first name: ";
 		cin.getline(in, 100);
-		strcpy(s.fName, in);
+		strcpy(s->fName, in);
 		
 		cout << "Input last name: ";
 		cin.getline(in, 100);
-		strcpy(s.lName, in);
+		strcpy(s->lName, in);
 
-		int id = 0;
+		int id= 0;
 		cout << "Input ID num: ";
 		cin.getline(tmp, 100);
 		istringstream buffer(tmp);
 		buffer >> id;
-		s.id = id;
-
+		s->id = id;
+		
 		float grade = 0;
 		cout << "Input GPA: ";
 		cin.getline(tmp, 100);
 		istringstream buffer2(tmp);
 		buffer2 >> grade;
-		s.gpa = grade;
-
-		cin.ignore();
+		s->gpa = grade;
 		
 		(*v).push_back(s);
+		cout << "test" << endl;
+		return true;
 	}else if(strcasecmp(input, "PRINT") == 0){
-	  for(vector<STUDENT>::iterator it = (*v).begin(); it != (*v).end(); ++it){
-	    cout << "Name: " << (*it).fName << " " << (*it).lName;
-	    cout << "ID: " << (*it).id;
-	    cout << "GPA: " << (*it).gpa;
+	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){
+	    cout << "\nName: " << (*(*it)).lName << ", " << (*it)->fName;
+	    cout << "\nID: " << (*it)->id;
+	    cout << "\nGPA: " << (*it)->gpa << "\n\n";
 	  }
 	    
 	}else if(strcasecmp(input, "DELETE") == 0){
 	}else if(strcasecmp(input, "EXIT") == 0){
 		exit(0);
 	}else{
-	  
-		STUDENT error;
-		strcpy(error.fName, '\0');
-		return error;
+	  return false;
 	}
 }
