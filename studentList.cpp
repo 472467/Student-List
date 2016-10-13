@@ -46,8 +46,8 @@ int main(){
 
 bool translateMove(char* input, vector<STUDENT*>* v){
 	char in[100];
-	system("clear");
 	if(strcasecmp(input, "ADD") == 0){
+	  system("clear");
 	  STUDENT *s = new STUDENT();
 		char tmp [100];
 		
@@ -74,16 +74,30 @@ bool translateMove(char* input, vector<STUDENT*>* v){
 		s->gpa = grade;
 		
 		(*v).push_back(s);
-		cout << "test" << endl;
 		return true;
 	}else if(strcasecmp(input, "PRINT") == 0){
 	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){
+	    system("clear");
 	    cout << "\nName: " << (*(*it)).lName << ", " << (*it)->fName;
 	    cout << "\nID: " << (*it)->id;
 	    cout << "\nGPA: " << (*it)->gpa << "\n\n";
 	  }
 	    
 	}else if(strcasecmp(input, "DELETE") == 0){
+	  cout << "Please input the ID of the student you wish to delete: ";
+	  cin.getline(in,100);
+	  stringstream ss(in);
+	  int delID = 0;
+	  ss >> delID;
+	  for(vector<STUDENT*>::iterator it = (*v).begin(); it != (*v).end(); ++it){
+	    if(delID ==(*it)->id){
+	      cout << "test" << endl;
+	      (*v).erase(it);
+	      break;
+	    }
+	  }
+	  system("clear");
+	  return true;
 	}else if(strcasecmp(input, "EXIT") == 0){
 		exit(0);
 	}else{
